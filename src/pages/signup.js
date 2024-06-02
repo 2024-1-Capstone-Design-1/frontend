@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 
 export default function RegistrationPage() {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const [birthdate, setBirthdate] = useState('');
+  const [profileImagePreview, setProfileImagePreview] = useState('');
+
+  const router = useRouter();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
   const handleNicknameChange = (e) => {
@@ -20,13 +28,44 @@ export default function RegistrationPage() {
     setPassword(e.target.value);
   };
 
-  const handleBirthdateChange = (e) => {
-    setBirthdate(e.target.value);
+  const handleProfileImageChange = (e) => {
+    const file = e.target.files[0];
+    setProfileImagePreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-};
+
+    const profileImageUrl = 'http://example.com/default-profile.png';
+
+    const data = {
+      email,
+      password,
+      username: name,
+      nickname,
+      profileImage: profileImageUrl,
+    };
+
+    try {
+      const response = await fetch('/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network Error');
+      }
+
+      const result = await response.json();
+      console.log(result);
+      router.push('/login');
+    } catch (error) {
+      console.error('문제가 발생했습니다:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
@@ -43,6 +82,17 @@ export default function RegistrationPage() {
                 onChange={handleEmailChange}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="이메일"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={handleNameChange}
+                className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="이름"
                 required
               />
             </div>
@@ -69,15 +119,17 @@ export default function RegistrationPage() {
               />
             </div>
             <div>
+              <label htmlFor="profileImage" className="block text-gray-800 mb-2">프로필이미지</label>
               <input
-                type="date"
-                id="birthdate"
-                value={birthdate}
-                onChange={handleBirthdateChange}
+                type="file"
+                id="profileImage"
+                onChange={handleProfileImageChange}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="생년월일"
-                required
+                accept="image/*"
               />
+              {profileImagePreview && (
+                <img src={profileImagePreview} alt="프로필 이미지 미리보기" className="mt-4 w-32 h-32 object-cover rounded-full" />
+              )}
             </div>
             <button
               type="submit"
