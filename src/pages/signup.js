@@ -30,13 +30,17 @@ export default function RegistrationPage() {
 
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
-    setProfileImagePreview(URL.createObjectURL(file));
+    if (file) {
+      setProfileImagePreview(URL.createObjectURL(file));
+    } else {
+      setProfileImagePreview('http://example.com/default-profile.png');
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const profileImageUrl = 'http://example.com/default-profile.png';
+    const profileImageUrl = profileImagePreview
 
     const data = {
       email,
@@ -47,7 +51,7 @@ export default function RegistrationPage() {
     };
 
     try {
-      const response = await fetch('/auth/signup', {
+      const response = await fetch('https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -28,8 +28,13 @@ export default function MyPage() {
               <Link href="#">
                 <p className="text-blue-500 hover:underline cursor-pointer">비밀번호 변경</p>
               </Link>
+              <Link href="/create-blog">
+                <button className="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                  블로그 생성
+                </button>
+              </Link>
             </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
