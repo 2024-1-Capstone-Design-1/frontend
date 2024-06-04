@@ -1,17 +1,16 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/"
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      width: {
+        'logo': '50px' // 로고 너비를 50px로 설정
       },
+      height: {
+        'logo': '50px' // 로고 높이를 50px로 설정
+      }
     },
   },
   plugins: [],
-};
+}

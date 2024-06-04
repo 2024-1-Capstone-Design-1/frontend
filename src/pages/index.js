@@ -7,7 +7,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-gray-100"> {/* 페이지 전체 레이아웃 스타일 적용 */}
       <header className="bg-white shadow-sm p-4 flex justify-between items-center"> {/* 헤더 섹션 */}
         <div className="flex items-center">
-          <img src="/logo.png" alt="logo" className="h-6 w-6 mr-2" /> {/* 로고 이미지 크기 조정 */}
+          <img src="/logo.png" alt="logo" className="h-logo w-logo mr-2" /> {/* 로고 이미지 크기 조정 */}
           <h1 className="text-2xl font-bold">타이틀</h1> {/* 타이틀 텍스트 */}
         </div>
         <div>
