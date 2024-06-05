@@ -37,6 +37,32 @@ Next.js 앱을 배포하는 가장 쉬운 방법은 Next.js의 창시자들이 �
 
 자세한 내용은 [Next.js 배포 문서](https://nextjs.org/docs/deployment)를 확인하세요.
 
+```
+frontend/
+├── public/
+│   └── logo.png
+├── src/
+│   ├── components/
+│   │   ├── PostCard.js
+│   │   ├── PostList.js
+│   │   └── CategoryList.js
+│   ├── pages/
+│   │   ├── index.js
+│   │   ├── login.js
+│   │   └── signup.js
+│   ├── styles/
+│   │   └── globals.css
+│   ├── app/
+│   │   └── ...
+├── .eslintrc.json
+├── .gitignore
+├── tailwind.config.js
+├── postcss.config.js
+├── package-lock.json
+├── package.json
+└── README.md
+```
+
 ### 상세 설명
 
 #### `components/`
