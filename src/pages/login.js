@@ -43,30 +43,7 @@ export default function LoginPage() {
         }
 
         localStorage.setItem('token', data.token);
-
-        /* 블로그 유무 확인 api
-        const blogResponse = await fetch(`https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/user/${data.userId}/has-blog`, {
-          headers: {
-            'Authorization': `Bearer ${data.token}`,
-          },
-        });
-
-        if (blogResponse.headers.get('content-type')?.includes('application/json')) {
-          const blogData = await blogResponse.json();
-
-          if (!blogResponse.ok) {
-            throw new Error(blogData.message || 'Error checking blog status');
-          }
-
-          if (blogData.hasBlog) {
-            router.push('/mypage');
-          } else {
-            router.push('/create-blog');
-          }
-        } else {
-          throw new Error('확인할 수 없습니다. 다시 시도해주세요.');
-        }
-        */
+        router.push('/mypage');
 
       } else {
         throw new Error('이메일 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.');
