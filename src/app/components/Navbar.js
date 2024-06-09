@@ -4,22 +4,27 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useAuth } from "../contexts/AuthContext";
+
 export default function Navbar() {
+  const { accessToken, logout } = useAuth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = accessToken;
+
     if (token) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  }, []);
+  }, [accessToken]);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
+    logout();
     setIsLoggedIn(false);
+
     router.push("/login");
   };
 

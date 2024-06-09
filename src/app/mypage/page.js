@@ -33,6 +33,35 @@ export default function MyPage() {
     }
   };
 
+  const updateUserProfile = async (event) => {
+    event.preventDefault(); // 폼 제출 기본 동작 방지
+    try {
+      const formData = new FormData();
+      formData.append("nickname", nickname);
+      if (profileImage) {
+        formData.append("profileImage", profileImage);
+      }
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/update`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update user profile"); // 응답이 정상적이지 않을 경우 에러 발생
+      }
+
+      const data = await res.json(); // 응답 데이터를 JSON 형식으로 파싱
+      console.log("User updated successfully:", data); // 성공적으로 업데이트되었음을 콘솔에 출력
+      fetchUserProfile(); // 업데이트 후 사용자 프로필 다시 가져오기
+    } catch (error) {
+      console.error("Error updating user profile:", error); // 에러 발생 시 콘솔에 에러 출력
+    }
+  };
+
   useEffect(() => {
     fetchUserProfile();
   }, []);
@@ -60,24 +89,7 @@ export default function MyPage() {
                   className="w-24 h-24 rounded-full mx-auto mb-4"
                 />
 
-                <p className="text-gray-700">{userProfile.data.email}</p>
-              </div>
-              <div className="text-center">
-                <label className="block mt-2">
-                  <span className="sr-only">Choose profile photo</span>
-                  <input
-                    type="file"
-                    className="block w-full text-sm text-gray-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-700
-                    hover:file:bg-blue-100"
-                  />
-                </label>
-                <p className="mt-2 text-gray-600 text-sm">
-                  Upload a new avatar. Maximum upload size is 1 MB.
-                </p>
+                <p className="text-gray-700">{userProfile.data.username}</p>
               </div>
             </form>
           )}
@@ -88,13 +100,13 @@ export default function MyPage() {
         >
           <h2 className="text-xl font-semibold mb-4 text-center">설정</h2>
           {userProfile && (
-            <form>
+            <form onSubmit={updateUserProfile}>
               <div className="mb-3">
                 <label className="block text-gray-700 text-sm">Username</label>
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded mt-1 text-sm"
-                  placeholder="Full Name"
+                  placeholder="USERNAME"
                   value={userProfile.data.username}
                   readOnly
                 />
@@ -104,7 +116,7 @@ export default function MyPage() {
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded mt-1 text-sm"
-                  placeholder="Username"
+                  placeholder="NICKNAME"
                   value={userProfile.data.nickname}
                   readOnly
                 />
@@ -121,47 +133,19 @@ export default function MyPage() {
                   readOnly
                 />
               </div>
-              <h2 className="text-lg font-bold mt-4 mb-3 text-center">
-                Change Password
-              </h2>
-              <div className="mb-3">
-                <label className="block text-gray-700 text-sm">
-                  Current Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-sm"
-                  placeholder="Current Password"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-gray-700 text-sm">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-sm"
-                  placeholder="New Password"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-gray-700 text-sm">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-sm"
-                  placeholder="Confirm Password"
-                />
-              </div>
-              <div className="text-center">
-                <button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                  Update Info
+              <div className="text-center space-x-3">
+                <button
+                  type="submit"
+                  className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                >
+                  프로필 수정
                 </button>
-                <button className="mt-3 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                  Change Password
-                </button>
-                <Link href="/create-blog">
+                <Link href="/mypage/change-password">
+                  <button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    비밀번호 변경
+                  </button>
+                </Link>
+                <Link href="">
                   <button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                     블로그 생성
                   </button>

@@ -17,18 +17,19 @@ export default function SignUp() {
     setter(e.target.value);
   };
 
+  // 프로필 이미지 변경 핸들러 함수
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
 
     if (file) {
-      console.log(2);
       setProfileImage(URL.createObjectURL(file));
       setProfileImagePreview(URL.createObjectURL(file));
     }
   };
 
+  // 폼 제출 핸들러 함수
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 폼 제출 기본 동작 방지
 
     const data = {
       email,
@@ -37,7 +38,7 @@ export default function SignUp() {
       nickname,
       profileImage,
     };
-
+    // 회원가입 api
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
@@ -46,12 +47,12 @@ export default function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data), // 데이터 JSON 형식으로 변환하여 전송
         }
       );
 
       if (!response.ok) {
-        throw new Error("Network Error");
+        throw new Error("Network Error"); // 응답이 정상적이지 않을 경우 에러 발생
       }
 
       router.push("/login");
@@ -67,8 +68,10 @@ export default function SignUp() {
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             회원가입
           </h2>
+          {/* 회원가입 박스 */}
           <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
             <div>
+              {/* 이메일 입력 칸 */}
               <input
                 type="email"
                 id="email"
@@ -80,6 +83,7 @@ export default function SignUp() {
               />
             </div>
             <div>
+              {/* 이름 입력칸 */}
               <input
                 type="text"
                 id="name"
@@ -91,6 +95,7 @@ export default function SignUp() {
               />
             </div>
             <div>
+              {/* 닉네임 입력칸 */}
               <input
                 type="text"
                 id="nickname"
@@ -102,6 +107,7 @@ export default function SignUp() {
               />
             </div>
             <div>
+              {/* 비밀번호 입력칸 */}
               <input
                 type="password"
                 id="password"
@@ -113,6 +119,7 @@ export default function SignUp() {
               />
             </div>
             <div>
+              {/* 프로필 이미지 */}
               <label
                 htmlFor="profileImage"
                 className="block text-gray-800 mb-2"
@@ -133,6 +140,7 @@ export default function SignUp() {
                   className="mt-4 w-32 h-32 object-cover rounded-full"
                 />
               )}
+              {/* 프로필 이미지 미리보기 */}
             </div>
             <button
               type="submit"
@@ -140,11 +148,13 @@ export default function SignUp() {
             >
               회원가입
             </button>
+            {/* 회원가입 버튼 */}
           </form>
           <div className="flex justify-between items-center mt-4 text-sm text-gray-400">
             <Link href="/login" className="hover:underline cursor-pointer">
               <span>이미 계정이 있으신가요?</span>
             </Link>
+            {/* 로그인 페이지로 이동 */}
           </div>
         </div>
       </div>

@@ -17,12 +17,14 @@ export default function Login() {
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
+  // 폼 제출 핸들러 함수
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+    e.preventDefault(); // 폼 제출 기본 동작 방지
+    setLoading(true); // 로딩 상태 시작
+    setError(""); // 에러 메시지 초기화
 
     try {
+      // 로그인 API
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         {
@@ -58,33 +60,34 @@ export default function Login() {
     } catch (err) {
       console.log("login: ", err);
     } finally {
-      setLoading(false);
+      setLoading(false); // 로딩 상태 종료
     }
   };
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
+      {/* 백그라운드 */}
       <div className="relative flex items-center justify-center min-h-screen bg-gray-200">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/path-to-your-background-image.jpg')",
-          }}
-        />
+        {/* 백그라운드 */}
         <div className="relative z-10 flex items-center justify-center w-full max-w-2xl p-10 bg-white rounded-lg shadow-lg">
+          {/* 로그인 박스 */}
           <div className="hidden md:block md:w-1/2 md:mr-10">
-            <img
+            {/* 광고형식 블로그 이미지 */}
+            {/* <img
               src="/1234.jpg"
               alt="랜덤 블로그 이미지"
               className="max-w-full h-auto"
-            />
+            /> */}
           </div>
           <div className="w-full md:w-1/2">
+            {/* 로그인상자 간격 */}
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+              {/* 로그인 버튼 */}
               로그인
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
+                {/* 이메일 칸 */}
                 <input
                   type="email"
                   id="email"
@@ -96,6 +99,7 @@ export default function Login() {
                 />
               </div>
               <div>
+                {/* 비밀번호 칸 */}
                 <input
                   type="password"
                   id="password"
@@ -107,6 +111,7 @@ export default function Login() {
                 />
               </div>
               {error && <p className="text-red-500">{error}</p>}
+              {/* 에러 메시지 */}
               <button
                 type="submit"
                 className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-200"
@@ -114,6 +119,7 @@ export default function Login() {
               >
                 {loading ? "로딩 중..." : "로그인"}
               </button>
+              {/* 로그인 버튼 로딩 상태 표시 */}
             </form>
             <div className="flex justify-between items-center mt-4 text-sm text-gray-400">
               <Link href="" className="hover:underline cursor-pointer">
