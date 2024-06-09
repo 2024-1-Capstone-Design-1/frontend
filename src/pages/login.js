@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Navbar from "../components/Navbar";
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -25,8 +25,8 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        // "https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/login",
-        "http://localhost:3001/auth/login",
+        "https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/login",
+        // "http://localhost:3001/auth/login",
         {
           method: "POST",
           headers: {
@@ -66,7 +66,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Navbar />
       <div className="relative flex items-center justify-center min-h-screen bg-gray-200">
         <div
           className="absolute inset-0 bg-cover bg-center"
