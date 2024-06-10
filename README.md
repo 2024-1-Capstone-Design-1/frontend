@@ -37,18 +37,37 @@ Next.js 앱을 배포하는 가장 쉬운 방법은 Next.js의 창시자들이 �
 
 자세한 내용은 [Next.js 배포 문서](https://nextjs.org/docs/deployment)를 확인하세요.
 
-### 상세 설명
 
-#### `components/`
-- **CategoryList.js**: 사용자에게 카테고리 목록을 보여줍니다. 각 카테고리는 선택 가능한 링크로 구성됩니다.
-- **PostCard.js**: 개별 포스트의 제목, 요약 및 이미지를 보여주는 카드 형태의 UI를 제공합니다.
-- **PostList.js**: 여러 포스트 카드를 포함하는 목록을 관리하고 표시합니다. 이 컴포넌트는 API로부터 데이터를 가져와 화면에 렌더링합니다.
+## 프로젝트 구조
 
-#### `pages/`
-- **index.js**: 애플리케이션의 메인 홈페이지입니다. 주요 내용과 링크를 포함하여 사용자에게 첫 화면을 제공합니다.
-- **layout.js**: 페이지 전체의 레이아웃을 설정합니다. 다른 페이지 컴포넌트들이 이 레이아웃 안에 포함되어 표시됩니다.
-- **login.js**: 로그인 기능을 위한 인터페이스를 제공합니다. 사용자 인증을 처리합니다.
-- **signup.js**: 새로운 사용자가 계정을 생성할 수 있는 회원가입 폼을 제공합니다.
+```
+src/
+├── components/
+│   ├── Header.js
+├── pages/
+│   ├── board.js
+│   ├── index.js
+│   ├── layout.js
+│   ├── user.js
+├── styles/
+│   ├── Board.module.css
+│   ├── index.module.css
+│   ├── User.module.css
+```
 
-#### `styles/`
-- **globals.css**: 전체 애플리케이션에 적용되는 전역 스타일을 정의합니다. 이 스타일 시트는 폰트, 색상 등의 기본 스타일을 설정합니다.
+### components/
+
+- `Header.js`: 헤더 컴포넌트
+
+### pages/
+
+- `board.js`: 게시판 페이지
+- `index.js`: 메인 페이지
+- `layout.js`: 레이아웃 페이지
+- `user.js`: 사용자 페이지
+
+### styles/
+
+- `Board.module.css`: 게시판 페이지 스타일 시트
+- `index.module.css`: 메인 페이지 스타일 시트
+- `User.module.css`: 사용자 페이지 스타일 시트
