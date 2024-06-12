@@ -15,9 +15,11 @@
 
 .mainBoard {
   flex: 2; /* 왼쪽 2/3 */
-  padding: 1rem; /* 패딩 */
-  background-color: #f9f9f9; /* 배경색 */
+  padding: 0rem; /* 패딩 */
+  background-color: #ffffff; /* 배경색 */
   border-radius: 8px; /* 테두리 반경 */
+  margin-top: 1rem; /* 상단 마진 */
+  margin-right: 1rem; /* 우측 마진 */
 }
 
 .boardContent {
@@ -50,7 +52,7 @@
   display: flex; /* 플렉스 박스 사용 */
   flex-direction: column; /* 플렉스 방향을 컬럼으로 설정 */
   padding: 1rem; /* 패딩 */
-  background-color: #f1f1f1; /* 배경색 */
+  background-color: #ffffff; /* 배경색 */
   border-radius: 8px; /* 테두리 반경 */
   border: 1px solid #000000; /* 테두리 추가 */
   margin-top: 1rem; /* 상단 마진 */
@@ -88,7 +90,7 @@
 }
 
 .tagItem {
-  background-color: #e0e0e0; /* 배경색 */
+  background-color: #acacac; /* 배경색 */
   padding: 0.5rem 1rem; /* 패딩 */
   border-radius: 5px; /* 테두리 반경 */
   cursor: pointer; /* 커서 포인터로 설정 */
