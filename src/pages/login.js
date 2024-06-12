@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Navbar from "../components/Navbar";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleEmailChange = (e) => {
@@ -25,8 +26,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        // "https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/login",
-        "http://localhost:3001/auth/login",
+        "https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/login",
         {
           method: "POST",
           headers: {
@@ -41,7 +41,7 @@ export default function LoginPage() {
 
       if (response.headers.get("content-type")?.includes("application/json")) {
         const data = await response.json();
-        console.log(data);
+
         if (!response.ok) {
           throw new Error(
             data.message ||
@@ -49,7 +49,7 @@ export default function LoginPage() {
           );
         }
 
-        localStorage.setItem("accessToken", data.data.accessToken);
+        login(data.data.accessToken);
 
         router.push("/mypage");
       } else {
@@ -66,7 +66,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Navbar />
       <div className="relative flex items-center justify-center min-h-screen bg-gray-200">
         <div
           className="absolute inset-0 bg-cover bg-center"
