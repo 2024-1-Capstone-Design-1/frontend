@@ -36,7 +36,7 @@ export default function MyPage() {
                 <img
                   src={user.profileImage}
                   alt="프로필 이미지"
-                  className="w-24 h-24 rounded-full mx-auto mb-4"
+                  className="w-24 h-24 rounded-full mx-auto mb-4" 
                 />
               ) : (
                 <div className="w-24 h-24 rounded-full mx-auto mb-4 bg-gradient-to-tl from-blue-100 via-blue-300 to-blue-500"></div>
@@ -121,11 +121,11 @@ export default function MyPage() {
                 placeholder="Confirm Password"
               />
             </div>
-            <div className="text-center">
+            <div className="display-flex text-center">
               <button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                 Update Info
               </button>
-              <button className="mt-3 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+              <button className="mt-3 bg-blue-300 hover:bg-red-600 text-white font-bold py-2 px-2 rounded">
                 Change Password
               </button>
               <Link href="/create-blog">
