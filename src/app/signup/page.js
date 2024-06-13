@@ -1,59 +1,46 @@
+"use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import Navbar from "../components/Navbar";
+import { useRouter } from "next/navigation";
 
-export default function RegistrationPage() {
+export default function SignUp() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState("");
-
   const router = useRouter();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleNicknameChange = (e) => {
-    setNickname(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
   };
 
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
+      console.log(2);
+      setProfileImage(URL.createObjectURL(file));
       setProfileImagePreview(URL.createObjectURL(file));
-    } else {
-      setProfileImagePreview("http://example.com/default-profile.png");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const profileImageUrl = profileImagePreview;
-
     const data = {
       email,
       password,
       username: name,
       nickname,
-      profileImage: profileImageUrl,
+      profileImage,
     };
 
     try {
       const response = await fetch(
-        // "https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/signup",
-        "http://localhost:3001/auth/signup",
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
         {
           method: "POST",
           headers: {
@@ -67,17 +54,14 @@ export default function RegistrationPage() {
         throw new Error("Network Error");
       }
 
-      const result = await response.json();
-      console.log(result);
       router.push("/login");
-    } catch (error) {
-      console.error("문제가 발생했습니다:", error);
+    } catch (err) {
+      console.log("SignUp: ", err.message);
     }
   };
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Navbar />
       <div className="flex-grow flex items-center justify-center bg-gray-200">
         <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-2xl p-10 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
@@ -89,7 +73,7 @@ export default function RegistrationPage() {
                 type="email"
                 id="email"
                 value={email}
-                onChange={handleEmailChange}
+                onChange={handleInputChange(setEmail)}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="이메일"
                 required
@@ -100,7 +84,7 @@ export default function RegistrationPage() {
                 type="text"
                 id="name"
                 value={name}
-                onChange={handleNameChange}
+                onChange={handleInputChange(setName)}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="이름"
                 required
@@ -111,7 +95,7 @@ export default function RegistrationPage() {
                 type="text"
                 id="nickname"
                 value={nickname}
-                onChange={handleNicknameChange}
+                onChange={handleInputChange(setNickname)}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="닉네임"
                 required
@@ -122,7 +106,7 @@ export default function RegistrationPage() {
                 type="password"
                 id="password"
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={handleInputChange(setPassword)}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="비밀번호"
                 required
@@ -133,7 +117,7 @@ export default function RegistrationPage() {
                 htmlFor="profileImage"
                 className="block text-gray-800 mb-2"
               >
-                프로필이미지
+                프로필 이미지
               </label>
               <input
                 type="file"
@@ -158,10 +142,8 @@ export default function RegistrationPage() {
             </button>
           </form>
           <div className="flex justify-between items-center mt-4 text-sm text-gray-400">
-            <Link href="/login">
-              <p className="hover:underline cursor-pointer">
-                이미 계정이 있으신가요?
-              </p>
+            <Link href="/login" className="hover:underline cursor-pointer">
+              <span>이미 계정이 있으신가요?</span>
             </Link>
           </div>
         </div>
