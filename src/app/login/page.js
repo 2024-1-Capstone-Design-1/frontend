@@ -1,9 +1,12 @@
+"use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+import { useAuth } from "../contexts/AuthContext";
+
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -11,13 +14,8 @@ export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,39 +24,39 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "https://port-0-backend-ss7z32llwi2aafi.sel5.cloudtype.app/auth/login",
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
+          body: JSON.stringify({ email, password }),
         }
       );
 
-      if (response.headers.get("content-type")?.includes("application/json")) {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(
-            data.message ||
-              "이메일 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."
-          );
+          const errorMsg = data.message;
+
+          if (errorMsg === "User does not exist") {
+            setError("존재하지 않는 유저입니다.");
+          } else if (
+            errorMsg === "Invaild email or password" ||
+            errorMsg === "Missing required fields"
+          ) {
+            setError("이메일 또는 비밀번호를 잘못 입력했습니다.");
+          }
+        } else {
+          login(data.data.accessToken);
+
+          router.push("/mypage");
         }
-
-        login(data.data.accessToken);
-
-        router.push("/mypage");
-      } else {
-        throw new Error(
-          "이메일 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."
-        );
       }
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      console.log("login: ", err);
     } finally {
       setLoading(false);
     }
@@ -118,13 +116,11 @@ export default function LoginPage() {
               </button>
             </form>
             <div className="flex justify-between items-center mt-4 text-sm text-gray-400">
-              <Link href="/forgot-password">
-                <p className="hover:underline cursor-pointer">
-                  비밀번호를 잊으셨나요?
-                </p>
+              <Link href="" className="hover:underline cursor-pointer">
+                <span>비밀번호를 잊으셨나요?</span>
               </Link>
-              <Link href="/signup">
-                <p className="hover:underline cursor-pointer">가입하기</p>
+              <Link href="/signup" className="hover:underline cursor-pointer">
+                <span>가입하기</span>
               </Link>
             </div>
           </div>
