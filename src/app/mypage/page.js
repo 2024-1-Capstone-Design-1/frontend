@@ -150,6 +150,11 @@ export default function MyPage() {
                     블로그 생성
                   </button>
                 </Link>
+                <Link href="">
+                  <button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    블로그 관리
+                  </button>
+                </Link>
               </div>
             </form>
           )}

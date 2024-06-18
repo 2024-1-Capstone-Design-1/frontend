@@ -31,11 +31,14 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-md py-4 px-8 fixed w-full z-40">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/">
-          <p className="text-xl font-bold text-gray-800 cursor-pointer">
-            메인화면으로
-          </p>
-        </Link>
+        <div className="flex space-x-4">
+          <Link href="/">
+            <p className="cursor-pointer">홈</p>
+          </Link>
+          <Link href="/board">
+            <p className="cursor-pointer">게시판</p>
+          </Link>
+        </div>
         <nav className="flex space-x-4">
           {isLoggedIn ? (
             <>
